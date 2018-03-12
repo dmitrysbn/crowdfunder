@@ -1,0 +1,14 @@
+<h2>My Profile</h2>
+
+<h4>My Backed Projects</h4>
+<ul>
+  <% @projects.each do |project| %>
+    <li>
+      <%= link_to "#{project.title}", project_path(project) %>
+    </li>
+  <% end %>
+</ul>
+
+<h4>Total Amount Pledged</h4>
+
+<h4>Projects I Own</h4>

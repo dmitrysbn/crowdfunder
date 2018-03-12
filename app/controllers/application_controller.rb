@@ -7,6 +7,12 @@ class ApplicationController < ActionController::Base
     User.find_by(id: session[:user_id])
   end
 
+  def require_login
+    unless current_user
+      not_authenticated
+    end
+  end
+
   helper_method :current_user
 
   private
