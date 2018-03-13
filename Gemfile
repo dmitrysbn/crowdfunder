@@ -35,6 +35,7 @@ group :development do
 end
 
 group :test do
+  gem 'factory_girl_rails'
   gem 'minitest-rails'
   gem 'minitest-reporters'
   gem 'rails-controller-testing'

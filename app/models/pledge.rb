@@ -8,7 +8,7 @@ class Pledge < ApplicationRecord
 
   def check_owner
       if user == project.owner
-        errors.add(:user, "Owner should not be able to pledge towards own project")
+        errors.add(:owner, "should not be able to pledge towards own project")
       end
   end
 
