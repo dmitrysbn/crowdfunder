@@ -13,8 +13,3 @@ class User < ActiveRecord::Base
 
   validates :email, uniqueness: true
 end
-
-
-# has_many :visitors, :through => :reservations, :source => :user
-#
-# belongs_to :owner, class_name: "User", foreign_key: 'user_id'
