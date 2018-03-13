@@ -13,6 +13,16 @@ class User < ActiveRecord::Base
   validates :password_confirmation, presence: true, on: :create
 
   validates :email, uniqueness: true
+
+
+  def pledged_amount
+    running_total = 0
+    pledges.each do |pledge|
+      running_total += pledge.dollar_amount
+    end
+    running_total
+  end
+
 end
 
 

@@ -2,7 +2,7 @@
 
 <h4>My Backed Projects</h4>
 <ul>
-  <% @projects.each do |project| %>
+  <% @backed_projects.each do |project| %>
     <li>
       <%= link_to "#{project.title}", project_path(project) %>
     </li>
@@ -13,3 +13,10 @@
  <p>Amount: <%= @total_amount %> </p>
 
 <h4>Projects I Own</h4>
+  <ul>
+    <% @owned_projects.each do |project| %>
+      <li>
+        <%= link_to "#{project.title}", project_path(project) %>
+      </li>
+      <% end %>
+  </ul>
