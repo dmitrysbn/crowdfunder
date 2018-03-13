@@ -8,6 +8,7 @@ class UserSessionsController < ApplicationController
       session[:user_id] = user.id
       redirect_to projects_url, notice: "Logged in!"
     else
+      flash[:alert] = "Email or Password invalid!"
       render "new"
     end
   end
