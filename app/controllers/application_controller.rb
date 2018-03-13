@@ -7,6 +7,13 @@ class ApplicationController < ActionController::Base
     User.find_by(id: session[:user_id])
   end
 
+  def require_login
+    unless current_user
+      flash[:alert] = "Please log in"
+      redirect_to new_sessions_path
+    end
+  end
+
   helper_method :current_user
 
   private

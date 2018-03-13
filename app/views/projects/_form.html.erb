@@ -1,4 +1,7 @@
 <%= form_for(@project, html: {multipart: true}) do |f| %>
+
+<%= render 'error', project: @project %>
+
   <div>
     <%= f.label :title %>
     <%= f.text_field :title %>
