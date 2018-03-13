@@ -21,5 +21,11 @@ class UsersController < ApplicationController
   def show
     @user = User.find(session[:user_id])
     @projects = @user.backed_projects
+    pledges = @user.pledges
+    running_total = 0
+    pledges.each do |pledge|
+      running_total += pledge.dollar_amount
+    end
+    @total_amount = running_total
   end
 end
