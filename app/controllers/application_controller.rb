@@ -9,8 +9,12 @@ class ApplicationController < ActionController::Base
 
   def require_login
     unless current_user
+<<<<<<< HEAD
       flash[:alert] = "Please log in"
       redirect_to new_sessions_path
+=======
+      not_authenticated
+>>>>>>> 0892e0bf8470da053bef23e919e7b0a6ff53b1f9
     end
   end
 
