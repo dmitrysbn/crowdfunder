@@ -14,6 +14,11 @@
   <%= f.submit "Pledge" %>
 <% end %>
 
+<p>You have been pledged $<%= @pledged %> so far.</p>
+<time class="project-days-left">
+  <%= icon('clock-o') %>
+  <%= "#{time_ago_in_words(@project.end_date)} #{( @project.end_date > Time.now.utc ) ? 'remaining' : 'past deadline'}" %></time>
+
 <h2>Rewards</h2>
 <% @project.rewards.each do |reward| %>
   <p><%= number_to_currency(reward.dollar_amount) %></p>

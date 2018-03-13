@@ -8,6 +8,9 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find(params[:id])
+    pledges = current_user.pledges.where(:project => @project)
+    @pledged = pledges.pluck(:dollar_amount).sum
+    check_goal
   end
 
   def new
@@ -30,6 +33,14 @@ class ProjectsController < ApplicationController
     else
       render :new
     end
-   end
+  end
+
+  def check_goal
+    if @pledged >= @project.goal
+      flash.now[:notice] = "You have already backed that project."
+    else
+      flash.now[:notice] = "You have not backed that project yet."
+    end
+  end
 
 end
