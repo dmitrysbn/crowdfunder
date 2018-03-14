@@ -2,8 +2,6 @@ class ProjectsController < ApplicationController
   before_action :require_login, only: [:new, :create]
 
   def index
-    @projects = Project.all
-
     @projects = Project.search(params[:term])
   end
 

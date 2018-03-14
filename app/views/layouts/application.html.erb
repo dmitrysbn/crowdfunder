@@ -16,12 +16,17 @@
       <h1 class="logo"><a href = "/">Crowdfunder</a></h1>
 
       <nav class="site-nav">
+        <%= link_to "New Project", new_project_path %> |
         <% if current_user %>
           <%= link_to "My Profile", user_path(current_user) %> |
           <%= link_to "Logout", :logout, method: :delete %>
         <% else %>
           <%= link_to "Register", new_user_path %> |
           <%= link_to "Login", :login %>
+        <% end %>
+        <%= form_tag(projects_path, method: :get) do %>
+          <%= text_field_tag :term, params[:term] %>
+          <%= submit_tag 'Search', name: nil %>
         <% end %>
       </nav>
     </header>
