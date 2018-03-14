@@ -2,11 +2,8 @@ class User < ActiveRecord::Base
   has_secure_password
   validates :first_name, :last_name, :email, presence: true, on: :create
   has_many :pledges
-  has_many :backed_projects, through: :pledges, source: :project # as a backer
+  has_many :backed_projects, -> { distinct }, through: :pledges, source: :project # as a backer
   has_many :owned_projects, class_name: "Project" # as an owner
-
-
-
 
   validates :password, length: { minimum: 8 }, on: :create
   validates :password, confirmation: true, on: :create

@@ -3,7 +3,8 @@ class ProjectsController < ApplicationController
 
   def index
     @projects = Project.all
-    @projects = @projects.order(:end_date)
+
+    @projects = Project.search(params[:term])
   end
 
   def show
@@ -15,6 +16,8 @@ class ProjectsController < ApplicationController
 
     check_if_backed
     @backers = @project.backers
+
+    @number_of_rewards = @project.rewards.count
   end
 
   def new

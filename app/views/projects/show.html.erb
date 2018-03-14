@@ -34,6 +34,7 @@
 </ul>
 
 <h2>Rewards</h2>
+<p><%= @number_of_rewards %> rewards have been claimed.</p>
 <% @project.rewards.each do |reward| %>
   <p><%= number_to_currency(reward.dollar_amount) %></p>
   <p><%= reward.description %></p>
