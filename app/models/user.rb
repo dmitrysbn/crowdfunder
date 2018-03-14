@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   has_many :backed_projects, through: :pledges, source: :project # as a backer
   has_many :owned_projects, class_name: "Project" # as an owner
 
-  
+
 
 
   validates :password, length: { minimum: 8 }, on: :create
@@ -23,9 +23,18 @@ class User < ActiveRecord::Base
     running_total
   end
 
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
+  def pledged_for(project)
+    running_total = 0
+    pledges.each do |pledge|
+      if pledge.project == project
+        running_total += pledge.dollar_amount
+      end
+    end
+    sprintf "%.2f", running_total
+  end
+
 end
-
-
-# has_many :visitors, :through => :reservations, :source => :user
-#
-# belongs_to :owner, class_name: "User", foreign_key: 'user_id'

@@ -11,6 +11,7 @@ class ProjectsController < ApplicationController
     pledges = current_user.pledges.where(:project => @project)
     @pledged = pledges.pluck(:dollar_amount).sum
     check_goal
+    @backers = @project.backers
   end
 
   def new
