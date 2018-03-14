@@ -10,7 +10,7 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     pledges = current_user.pledges.where(:project => @project)
     @pledged = pledges.pluck(:dollar_amount).sum
-    check_goal
+    check_if_backed
     @backers = @project.backers
   end
 
@@ -38,8 +38,8 @@ class ProjectsController < ApplicationController
 
 end
 
-def check_goal
-  if @pledged >= @project.goal
+def check_if_backed
+  if @project.backers.include?(current_user)
     flash.now[:notice] = "You have already backed that project."
   else
     flash.now[:notice] = "You have not backed that project yet."
