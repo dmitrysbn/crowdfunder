@@ -31,4 +31,12 @@ class Project < ActiveRecord::Base
     end
     running_total
   end
+
+  def self.search(term)
+    if term
+      where('title iLIKE ?', "%#{term}%").order(:end_date)
+    else
+      order(:end_date)
+    end
+  end
 end
