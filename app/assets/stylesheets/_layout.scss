@@ -1,12 +1,20 @@
 .site-header {
   text-align: center;
   margin-bottom: 1rem;
+  .logo {
+    a {
+      text-decoration: none;
+      color: black;
+    }
+  }
 }
 
 .logo {
-  text-decoration: none;
   margin: 0;
   text-align: center;
   line-height: 50px;
   font-size: 1.5rem;
 }
+ // .site-header .logo a {
+ //
+ // }
