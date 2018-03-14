@@ -19,6 +19,16 @@
   <%= icon('clock-o') %>
   <%= "#{time_ago_in_words(@project.end_date)} #{( @project.end_date > Time.now.utc ) ? 'remaining' : 'past deadline'}" %></time>
 
+<p>Backers:</p>
+<ul>
+  <% @backers.uniq.each do |backer| %>
+    <li>
+      <%= backer.full_name %>, <%= backer.email %>,
+      $<%= backer.pledged_for(@project) %>
+    </li>
+  <% end %>
+</ul>
+
 <h2>Rewards</h2>
 <% @project.rewards.each do |reward| %>
   <p><%= number_to_currency(reward.dollar_amount) %></p>
