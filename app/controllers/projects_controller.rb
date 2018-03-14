@@ -8,8 +8,8 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find(params[:id])
-    pledges = current_user.pledges.where(:project => @project)
-    @pledged = pledges.pluck(:dollar_amount).sum
+    pledge = current_user.pledges.where(:project => @project)
+    @pledged = pledge.pluck(:dollar_amount).sum
     check_goal
   end
 
