@@ -1,3 +1,10 @@
+<div class="summary">
+  <p>Total Backers: <%= @total_backers %></p>
+  <p>Started Projects: <%= @number_of_projects %></p>
+  <p>Funded Projects: <%= @funded_projects %></p>
+  <p>Total Pledged: <%= @total_pledged %></p>
+</div>
+
 <% @projects.each do |project| %>
   <article class="project">
     <%= link_to project, class: 'project-link' do %>

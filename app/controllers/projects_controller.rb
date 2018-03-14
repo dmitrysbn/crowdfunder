@@ -3,6 +3,11 @@ class ProjectsController < ApplicationController
 
   def index
     @projects = Project.search(params[:term])
+    @number_of_projects = @projects.count
+    @funded_projects = Project.funded.count
+    @total_pledged = @projects.reduce(0) { |sum, project| sum + project.pledged_amount }
+    @total_backers = @projects.reduce(0) { |sum, project| sum + project.backers.count }
+    # @total_unique_backers
   end
 
   def show

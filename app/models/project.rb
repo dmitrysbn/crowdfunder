@@ -2,7 +2,7 @@ class Project < ActiveRecord::Base
   has_many :rewards
   has_many :pledges
 
-  has_many :backers, through: :pledges, source: :user # backers
+  has_many :backers, -> { distinct }, through: :pledges, source: :user # backers
   belongs_to :owner, class_name: "User", foreign_key: 'user_id' # project owner
 
   validates :title, :description, :goal, :start_date, :end_date, :user_id, presence: true
@@ -38,5 +38,12 @@ class Project < ActiveRecord::Base
     else
       order(:end_date)
     end
+  end
+
+  def self.funded
+    funded_projects = Project.all.select do |project|
+      project.pledged_amount >= project.goal
+    end
+    funded_projects
   end
 end
