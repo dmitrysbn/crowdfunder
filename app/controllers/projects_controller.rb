@@ -14,16 +14,14 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     if current_user
       @pledged_by_user = current_user.pledged_for(@project)
+      check_if_backer
     end
     @total_pledged_for_project = @project.pledged_amount
 
-    pledges = current_user.pledges.where(:project => @project)
-    @pledged = pledges.pluck(:dollar_amount).sum
-    check_if_backer
     @backers = @project.backers
 
     @number_of_rewards = @project.rewards.count
-    
+
     extract_posted_update
     @post_update = Comment.new
     @post_update.posted_update = true

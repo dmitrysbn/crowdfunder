@@ -47,4 +47,5 @@ class Project < ActiveRecord::Base
     end
     funded_projects
   end
+
 end
