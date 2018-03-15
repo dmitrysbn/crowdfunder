@@ -17,10 +17,18 @@ class ProjectsController < ApplicationController
     end
     @total_pledged_for_project = @project.pledged_amount
 
-    check_if_backed
+    pledges = current_user.pledges.where(:project => @project)
+    @pledged = pledges.pluck(:dollar_amount).sum
+    check_if_backer
     @backers = @project.backers
 
     @number_of_rewards = @project.rewards.count
+    
+    extract_posted_update
+    @post_update = Comment.new
+    @post_update.posted_update = true
+    @comments = @project.comments.where(:posted_update => false).order(created_at: :desc)
+    @comment = Comment.new
   end
 
   def new
@@ -47,10 +55,21 @@ class ProjectsController < ApplicationController
 
 end
 
-def check_if_backed
-  if @project.backers.include?(current_user)
-    flash.now[:notice] = "You have already backed that project."
-  else
-    flash.now[:notice] = "You have not backed that project yet."
+def check_if_backer
+  unless @project.user_id == current_user.id
+    if @project.backers.include?(current_user)
+      flash.now[:notice] = "You have already backed that project."
+    else
+      flash.now[:notice] = "You have not backed that project yet."
+    end
   end
+
+  def extract_posted_update
+    if @project.end_date > Time.now.utc ||  @project.backers.include?(current_user) || @project.user_id == current_user.id
+      @posted_updates = @project.comments.where(:posted_update => true).order(created_at: :desc)
+    else
+      @posted_updates = @project.comments.where(:posted_update => true).where("created_at < ?", @project.end_date).order(created_at: :desc)
+    end
+  end
+
 end
