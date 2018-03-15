@@ -4,6 +4,7 @@ class Project < ActiveRecord::Base
 
   has_many :backers, through: :pledges, source: :user # backers
   belongs_to :owner, class_name: "User", foreign_key: 'user_id' # project owner
+  has_many :comments
 
   validates :title, :description, :goal, :start_date, :end_date, :user_id, presence: true
   validates :goal, numericality: { greater_than: 0 }
