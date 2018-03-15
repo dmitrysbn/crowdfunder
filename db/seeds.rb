@@ -3,6 +3,7 @@ Reward.destroy_all
 User.destroy_all
 Project.destroy_all
 Comment.destroy_all
+Category.destroy_all
 
 5.times do
   User.create!(
@@ -13,6 +14,12 @@ Comment.destroy_all
     password_confirmation: 'password'
   )
 end
+
+Category.create(:category_name => 'technology')
+Category.create(:category_name =>'art')
+Category.create(:category_name => 'sports')
+Category.create(:category_name => 'food')
+
 
 10.times do
   project = Project.create!(
@@ -44,6 +51,3 @@ end
     dollar_amount: project.rewards.sample.dollar_amount + rand(10)+1
   )
 end
-
-Category.create(:category_name => 'technology')
-Category.create(:category_name =>'art')

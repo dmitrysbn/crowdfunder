@@ -39,6 +39,12 @@
   <p><%= number_to_currency(reward.dollar_amount) %></p>
   <p><%= reward.description %></p>
 
+  <%= form_for [@project, Pledge.new] do |f| %>
+    <%= f.hidden_field :reward_id, value: reward.id %>
+    <%= f.number_field :dollar_amount, value: reward.dollar_amount, step: 0.01, min: reward.dollar_amount %>
+    <%= f.submit "Claim Reward" %>
+  <% end %>
+
   <% if current_user && current_user == @project.owner %>
     <p>
       <small>
