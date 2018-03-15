@@ -2,7 +2,7 @@ class ProjectsController < ApplicationController
   before_action :require_login, only: [:new, :create]
 
   def index
-    @projects = Project.search(params[:term])
+    @projects = Project.search(params[:term], params[:category][:category_id] )
     @number_of_projects = @projects.count
     @funded_projects = Project.funded.count
     @total_pledged = @projects.reduce(0) { |sum, project| sum + project.pledged_amount }

@@ -26,6 +26,7 @@
         <% end %>
         <%= form_tag(projects_path, method: :get) do %>
           <%= text_field_tag :term, params[:term] %>
+          <%= collection_select(:category, :category_id, Category.order(:category_name), :id, :category_name, include_blank: true) %>
           <%= submit_tag 'Search', name: nil %>
         <% end %>
       </nav>

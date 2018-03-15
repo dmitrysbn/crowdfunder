@@ -47,7 +47,9 @@
     </p>
   <% end %>
 <% end %>
-<%= link_to "Add new reward", new_project_reward_path(@project) %>
+<% if current_user && current_user == @project.owner %>
+  <%= link_to "Add new reward", new_project_reward_path(@project) %>
+<% end %>
 
 
 <h2>Updates</h2>

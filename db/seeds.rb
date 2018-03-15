@@ -27,7 +27,7 @@ end
   5.times do
     project.rewards.create!(
       description: Faker::Superhero.power,
-      dollar_amount: rand(100),
+      dollar_amount: rand(100)+1,
     )
   end
 end
@@ -40,6 +40,9 @@ end
   Pledge.create!(
     user: User.all[1..-1].sample,
     project: project,
-    dollar_amount: project.rewards.sample.dollar_amount + rand(10)
+    dollar_amount: project.rewards.sample.dollar_amount + rand(10)+1
   )
 end
+
+Category.create(:category_name => 'technology')
+Category.create(:category_name =>'art')
