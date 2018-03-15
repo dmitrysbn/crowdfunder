@@ -23,6 +23,7 @@ end
               end_date: Time.now.utc + rand(10) + 2.days,
               owner: User.first
             )
+            project.categories = [Category.first]
 
   5.times do
     project.rewards.create!(

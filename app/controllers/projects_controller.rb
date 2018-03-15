@@ -2,7 +2,7 @@ class ProjectsController < ApplicationController
   before_action :require_login, only: [:new, :create]
 
   def index
-    @projects = Project.search(params[:term], params[:category][:category_id] )
+    @projects = Project.search(params[:term], params[:category])
     @number_of_projects = @projects.count
     @funded_projects = Project.funded.count
     @total_pledged = @projects.reduce(0) { |sum, project| sum + project.pledged_amount }
@@ -61,13 +61,12 @@ def check_if_backer
       flash.now[:notice] = "You have not backed that project yet."
     end
   end
+end
 
-  def extract_posted_update
-    if @project.end_date > Time.now.utc ||  @project.backers.include?(current_user) || @project.user_id == current_user.id
-      @posted_updates = @project.comments.where(:posted_update => true).order(created_at: :desc)
-    else
-      @posted_updates = @project.comments.where(:posted_update => true).where("created_at < ?", @project.end_date).order(created_at: :desc)
-    end
+def extract_posted_update
+  if @project.end_date > Time.now.utc ||  @project.backers.include?(current_user) || @project.user_id == current_user.id
+    @posted_updates = @project.comments.where(:posted_update => true).order(created_at: :desc)
+  else
+    @posted_updates = @project.comments.where(:posted_update => true).where("created_at < ?", @project.end_date).order(created_at: :desc)
   end
-
 end
