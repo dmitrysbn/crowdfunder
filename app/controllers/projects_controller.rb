@@ -32,6 +32,7 @@ class ProjectsController < ApplicationController
   def new
     @project = Project.new
     @project.rewards.build
+    @categories = Category.all
   end
 
   def create
@@ -45,20 +46,20 @@ class ProjectsController < ApplicationController
     @project.user_id = current_user.id
 
     if @project.save
+      write_project_category
       redirect_to projects_url
     else
       render :new
     end
-   end
+  end
 
-end
-
-def check_if_backer
-  unless @project.user_id == current_user.id
-    if @project.backers.include?(current_user)
-      flash.now[:notice] = "You have already backed that project."
-    else
-      flash.now[:notice] = "You have not backed that project yet."
+  def check_if_backer
+    unless @project.user_id == current_user.id
+      if @project.backers.include?(current_user)
+        flash.now[:notice] = "You have already backed that project."
+      else
+        flash.now[:notice] = "You have not backed that project yet."
+      end
     end
   end
 
@@ -67,6 +68,18 @@ def check_if_backer
       @posted_updates = @project.comments.where(:posted_update => true).order(created_at: :desc)
     else
       @posted_updates = @project.comments.where(:posted_update => true).where("created_at < ?", @project.end_date).order(created_at: :desc)
+    end
+  end
+
+  def write_project_category
+    params[:project][:category_ids].each do |cat_id|
+      unless cat_id == ""
+        @project_category = Category_Project.new
+        @project_category.project_id = @project.id
+        @project_category.category_id = cat.id
+
+        @project_category.save
+      end
     end
   end
 

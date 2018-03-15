@@ -32,5 +32,12 @@
     <%= f.date_field :end_date %>
   </div>
 
+  <div>
+    <p>
+      Select Categories:-
+      <%= f.collection_check_boxes(:category_ids, @categories, :id,  :category_name) %>
+    </p>
+  </div>
+
   <%= f.submit %>
 <% end %>
