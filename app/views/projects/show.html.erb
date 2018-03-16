@@ -76,7 +76,7 @@
 
 <h2>Comments</h2>
 
-<% if current_user && (@project.owner == current_user.id || @project.backers.include?(current_user)) %>
+<% if current_user && (@project.owner == current_user || @project.backers.include?(current_user)) %>
   <%= render '/comments/form', project: @project, comment: @comment %>
 <% end %>
 
