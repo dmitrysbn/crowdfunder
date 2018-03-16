@@ -9,11 +9,19 @@ class PledgesController < ApplicationController
     @pledge.reward_id = params[:pledge][:reward_id]
     @pledge.user = current_user
 
+    if @pledge.reward_id
+      @reward = Reward.find(params[:pledge][:reward_id])
+    end
+    
+    if @reward
+      @reward.times_claimed += 1
+      @reward.save
+    end
+
     if @pledge.save
       redirect_to project_url(@project), notice: "You have successfully backed #{@project.title}!"
     else
       flash[:alert] = @pledge.errors.full_messages.first
-      # render 'projects/show' # this caused an error
       redirect_to project_url(@project)
     end
   end

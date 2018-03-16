@@ -17,7 +17,7 @@ class ProjectsController < ApplicationController
 
     @total_pledged_for_project = @project.pledged_amount
     @backers = @project.backers
-    @number_of_rewards = @project.pledges.where("reward_id is not null").count
+    @number_of_claimed_rewards = @project.pledges.where("reward_id is not null").count
 
     extract_posted_update
     @post_update = Comment.new

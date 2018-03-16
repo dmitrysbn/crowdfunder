@@ -35,7 +35,7 @@ Category.create(:category_name => 'food')
   5.times do
     project.rewards.create!(
       description: Faker::Superhero.power,
-      dollar_amount: rand(100)+1,
+      dollar_amount: rand(100)+1
     )
   end
 end
