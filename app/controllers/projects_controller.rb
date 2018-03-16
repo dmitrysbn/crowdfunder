@@ -29,6 +29,7 @@ class ProjectsController < ApplicationController
   def new
     @project = Project.new
     @project.rewards.build
+    @categories = Category.all
   end
 
   def create
@@ -42,18 +43,41 @@ class ProjectsController < ApplicationController
     @project.user_id = current_user.id
 
     if @project.save
+      write_project_category
       redirect_to projects_url
     else
       render :new
     end
-   end
-
-end
-
-def extract_posted_update
-  if @project.end_date > Time.now.utc ||  @project.backers.include?(current_user) || @project.user_id == current_user.id
-    @posted_updates = @project.comments.where(:posted_update => true).order(created_at: :desc)
-  else
-    @posted_updates = @project.comments.where(:posted_update => true).where("created_at < ?", @project.end_date).order(created_at: :desc)
   end
+
+  def check_if_backer
+    unless @project.user_id == current_user.id
+      if @project.backers.include?(current_user)
+        flash.now[:notice] = "You have already backed that project."
+      else
+        flash.now[:notice] = "You have not backed that project yet."
+      end
+    end
+  end
+
+  def extract_posted_update
+    if @project.end_date > Time.now.utc ||  @project.backers.include?(current_user) || @project.user_id == current_user.id
+      @posted_updates = @project.comments.where(:posted_update => true).order(created_at: :desc)
+    else
+      @posted_updates = @project.comments.where(:posted_update => true).where("created_at < ?", @project.end_date).order(created_at: :desc)
+    end
+  end
+
+  def write_project_category
+    params[:project][:category_ids].each do |cat_id|
+      unless cat_id == ""
+        @project_category = Categorization.new
+        @project_category.project_id = @project.id
+        @project_category.category_id = cat_id
+
+        @project_category.save
+      end
+    end
+  end
+
 end
