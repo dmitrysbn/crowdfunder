@@ -17,7 +17,7 @@ class ProjectsController < ApplicationController
 
     @total_pledged_for_project = @project.pledged_amount
     @backers = @project.backers
-    # @number_of_rewards = @project.rewards.where("reward_id = 33")
+    @number_of_rewards = @project.pledges.where("reward_id is not null").count
 
     extract_posted_update
     @post_update = Comment.new
@@ -69,6 +69,7 @@ class ProjectsController < ApplicationController
   end
 
   def write_project_category
+    byebug
     params[:project][:category_ids].each do |cat_id|
       unless cat_id == ""
         @project_category = Categorization.new
