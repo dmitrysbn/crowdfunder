@@ -6,7 +6,7 @@ class Pledge < ApplicationRecord
   validates :dollar_amount, presence: true
   validates :user, presence: true
   validate  :check_owner
-  validate  :claim_under_limit?
+  validate  :reward_under_limit?
 
   def check_owner
     if user == project.owner
@@ -14,7 +14,7 @@ class Pledge < ApplicationRecord
     end
   end
 
-  def claim_under_limit?
+  def reward_under_limit?
     if reward && reward.times_claimed > reward.claim_limit
       errors.add(:claim_limit, "has been exceeded.")
     end

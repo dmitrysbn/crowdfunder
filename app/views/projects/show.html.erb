@@ -15,9 +15,11 @@
 <p>Fundraising starts: <%= @project.start_date.strftime("%A %b %d %Y") %></p>
 <p>Deadline: <%= @project.end_date.strftime("%A %b %d %Y") %></p>
 
-<%= form_for [@project, Pledge.new] do |f| %>
-  <%= f.number_field :dollar_amount, value: @project.rewards.minimum(:dollar_amount), step: 0.01 %>
-  <%= f.submit "Pledge" %>
+<% unless current_user && current_user == @project.owner %>
+  <%= form_for [@project, Pledge.new] do |f| %>
+    <%= f.number_field :dollar_amount, value: @project.rewards.minimum(:dollar_amount), step: 0.01 %>
+    <%= f.submit "Pledge" %>
+  <% end %>
 <% end %>
 
 <% if current_user %>
@@ -46,10 +48,14 @@
   <p><%= number_to_currency(reward.dollar_amount) %></p>
   <p><%= reward.description %></p>
 
-  <%= form_for [@project, Pledge.new] do |f| %>
-    <%= f.hidden_field :reward_id, value: reward.id %>
-    <%= f.number_field :dollar_amount, value: reward.dollar_amount, step: 0.01, min: reward.dollar_amount %>
-    <%= f.submit "Claim Reward" %>
+  <% unless current_user && current_user == @project.owner %>
+    <% if reward.claim_limit && reward.times_claimed < reward.claim_limit %>
+      <%= form_for [@project, Pledge.new] do |f| %>
+        <%= f.hidden_field :reward_id, value: reward.id %>
+        <%= f.number_field :dollar_amount, value: reward.dollar_amount, step: 0.01, min: reward.dollar_amount %>
+        <%= f.submit "Claim Reward" %>
+      <% end %>
+    <% end %>
   <% end %>
 
   <% if current_user && current_user == @project.owner %>
@@ -60,6 +66,7 @@
     </p>
   <% end %>
 <% end %>
+
 <% if current_user && current_user == @project.owner %>
   <%= link_to "Add new reward", new_project_reward_path(@project) %>
 <% end %>

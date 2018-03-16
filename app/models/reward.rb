@@ -7,7 +7,7 @@ class Reward < ActiveRecord::Base
   validate    :times_claimed_under_limit?
 
   def times_claimed_under_limit?
-    unless times_claimed <= claim_limit
+    if claim_limit && times_claimed > claim_limit
       errors.add(:claim_limit, "has been exceeded")
     end
   end
