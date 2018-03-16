@@ -69,7 +69,6 @@ class ProjectsController < ApplicationController
   end
 
   def write_project_category
-    byebug
     params[:project][:category_ids].each do |cat_id|
       unless cat_id == ""
         @project_category = Categorization.new
