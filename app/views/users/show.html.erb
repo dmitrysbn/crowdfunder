@@ -20,3 +20,8 @@
       </li>
       <% end %>
   </ul>
+
+<h4>My Rewards</h4>
+    <% @reward_id.each do |reward| %>
+    <p><%= reward.description %></p>
+    <% end %>

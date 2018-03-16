@@ -2,7 +2,7 @@ class ProjectsController < ApplicationController
   before_action :require_login, only: [:new, :create]
 
   def index
-    @projects = Project.search(params[:term])
+    @projects = Project.search(params[:term], params[:category])
     @number_of_projects = @projects.count
     @funded_projects = Project.funded.count
     @total_pledged = @projects.reduce(0) { |sum, project| sum + project.pledged_amount }
@@ -74,7 +74,7 @@ class ProjectsController < ApplicationController
   def write_project_category
     params[:project][:category_ids].each do |cat_id|
       unless cat_id == ""
-        @project_category = Category_Project.new
+        @project_category = Categories_Project.new
         @project_category.project_id = @project.id
         @project_category.category_id = cat.id
 

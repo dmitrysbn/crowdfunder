@@ -34,9 +34,14 @@ class Project < ActiveRecord::Base
     running_total
   end
 
-  def self.search(term)
-    if term
+  def self.search(term, hash_category_id)
+    if term && hash_category_id[:category_id].present?
+      where('title iLIKE ?', "%#{term}%").joins(:categories).where("categories.id = ?", hash_category_id[:category_id]).order(:end_date)
+      # ('category_id = ?', hash_category_id[:category_id]).order(:end_date)
+    elsif term
       where('title iLIKE ?', "%#{term}%").order(:end_date)
+    elsif hash_category_id
+      joins(:categories).where("categories.id = ?", hash_category_id[:category_id]).order(:end_date)
     else
       order(:end_date)
     end

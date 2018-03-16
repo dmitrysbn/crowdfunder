@@ -6,6 +6,7 @@ class PledgesController < ApplicationController
 
     @pledge = @project.pledges.build
     @pledge.dollar_amount = params[:pledge][:dollar_amount]
+    @pledge.reward_id = params[:pledge][:reward_id]
     @pledge.user = current_user
 
     if @pledge.save

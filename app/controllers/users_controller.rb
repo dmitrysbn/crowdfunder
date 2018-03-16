@@ -23,5 +23,6 @@ class UsersController < ApplicationController
     @backed_projects = @user.backed_projects
     @total_amount = @user.pledged_amount
     @owned_projects = @user.owned_projects
+    @reward_id = @user.rewards
   end
 end

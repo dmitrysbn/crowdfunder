@@ -3,6 +3,7 @@ Reward.destroy_all
 User.destroy_all
 Project.destroy_all
 Comment.destroy_all
+Category.destroy_all
 
 5.times do
   User.create!(
@@ -14,6 +15,12 @@ Comment.destroy_all
   )
 end
 
+Category.create(:category_name => 'technology')
+Category.create(:category_name =>'art')
+Category.create(:category_name => 'sports')
+Category.create(:category_name => 'food')
+
+
 10.times do
   project = Project.create!(
               title: Faker::App.name,
@@ -23,11 +30,12 @@ end
               end_date: Time.now.utc + rand(10) + 2.days,
               owner: User.first
             )
+            project.categories = [Category.first]
 
   5.times do
     project.rewards.create!(
       description: Faker::Superhero.power,
-      dollar_amount: rand(100),
+      dollar_amount: rand(100)+1,
     )
   end
 end
@@ -40,6 +48,6 @@ end
   Pledge.create!(
     user: User.all[1..-1].sample,
     project: project,
-    dollar_amount: project.rewards.sample.dollar_amount + rand(10)
+    dollar_amount: project.rewards.sample.dollar_amount + rand(10)+1
   )
 end
