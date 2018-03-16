@@ -1,4 +1,9 @@
 <h1><%= @project.title %></h1>
+<% if current_user && @project.check_if_backer?(current_user)%>
+  <p>You have already backed this project.</p>
+<% elsif current_user != @project.owner %>
+  <p>You have not backed this project.</p>
+<% end %>
 
 <% if @project.image.present? %>
   <%= image_tag @project.image %>
@@ -16,7 +21,9 @@
 <% end %>
 
 <% if current_user %>
-  <p>You have pledged $<%= @pledged_by_user %> so far.</p>
+  <% unless current_user == @project.owner %>
+    <p>You have pledged $<%= @pledged_by_user %> so far.</p>
+  <% end %>
 <% end %>
 
 <time class="project-days-left">
@@ -25,7 +32,7 @@
 
 <p>Backers:</p>
 <ul>
-  <% @backers.uniq.each do |backer| %>
+  <% @backers.each do |backer| %>
     <li>
       <%= backer.full_name %>, <%= backer.email %>,
       $<%= backer.pledged_for(@project) %>

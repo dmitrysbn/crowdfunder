@@ -7,20 +7,17 @@ class ProjectsController < ApplicationController
     @funded_projects = Project.funded.count
     @total_pledged = @projects.reduce(0) { |sum, project| sum + project.pledged_amount }
     @total_backers = @projects.reduce(0) { |sum, project| sum + project.backers.count }
-    # @total_unique_backers
   end
 
   def show
     @project = Project.find(params[:id])
     if current_user
       @pledged_by_user = current_user.pledged_for(@project)
-      check_if_backer
     end
+
     @total_pledged_for_project = @project.pledged_amount
-
     @backers = @project.backers
-
-    @number_of_rewards = @project.rewards.count
+    # @number_of_rewards = @project.rewards.where("reward_id = 33")
 
     extract_posted_update
     @post_update = Comment.new
@@ -51,16 +48,6 @@ class ProjectsController < ApplicationController
     end
    end
 
-end
-
-def check_if_backer
-  unless @project.user_id == current_user.id
-    if @project.backers.include?(current_user)
-      flash.now[:notice] = "You have already backed that project."
-    else
-      flash.now[:notice] = "You have not backed that project yet."
-    end
-  end
 end
 
 def extract_posted_update
