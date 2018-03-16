@@ -49,7 +49,7 @@
   <p><%= reward.description %></p>
 
   <% unless current_user && current_user == @project.owner %>
-    <% if reward.claim_limit && reward.times_claimed < reward.claim_limit %>
+    <% unless reward.claim_limit && reward.times_claimed >= reward.claim_limit %>
       <%= form_for [@project, Pledge.new] do |f| %>
         <%= f.hidden_field :reward_id, value: reward.id %>
         <%= f.number_field :dollar_amount, value: reward.dollar_amount, step: 0.01, min: reward.dollar_amount %>
