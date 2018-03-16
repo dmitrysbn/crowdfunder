@@ -5,7 +5,7 @@ class Project < ActiveRecord::Base
   has_many :backers, -> { distinct }, through: :pledges, source: :user # backers
   belongs_to :owner, class_name: "User", foreign_key: 'user_id' # project owner
   has_many :comments
-  has_and_belongs_to_many :categories
+  has_and_belongs_to_many :categories, :join_table => :categorizations
 
   validates :title, :description, :goal, :start_date, :end_date, :user_id, presence: true
   validates :goal, numericality: { greater_than: 0 }
