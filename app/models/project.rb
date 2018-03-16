@@ -54,4 +54,8 @@ class Project < ActiveRecord::Base
     funded_projects
   end
 
+  def check_if_backer?(user)
+    backers.include?(user)
+  end
+
 end

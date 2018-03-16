@@ -13,15 +13,15 @@
  <p>Amount: <%= @total_amount %> </p>
 
 <h4>Projects I Own</h4>
-  <ul>
-    <% @owned_projects.each do |project| %>
-      <li>
-        <%= link_to "#{project.title}", project_path(project) %>
-      </li>
-      <% end %>
-  </ul>
+<ul>
+  <% @owned_projects.each do |project| %>
+    <li>
+      <%= link_to "#{project.title}", project_path(project) %>
+    </li>
+  <% end %>
+</ul>
 
 <h4>My Rewards</h4>
-    <% @reward_id.each do |reward| %>
-    <p><%= reward.description %></p>
-    <% end %>
+<% @rewards.uniq.each do |reward| %>
+  <p><%= reward.description %> x <%= @rewards.to_a.count(reward) %></p>
+<% end %>

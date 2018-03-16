@@ -7,20 +7,17 @@ class ProjectsController < ApplicationController
     @funded_projects = Project.funded.count
     @total_pledged = @projects.reduce(0) { |sum, project| sum + project.pledged_amount }
     @total_backers = @projects.reduce(0) { |sum, project| sum + project.backers.count }
-    # @total_unique_backers
   end
 
   def show
     @project = Project.find(params[:id])
     if current_user
       @pledged_by_user = current_user.pledged_for(@project)
-      check_if_backer
     end
+
     @total_pledged_for_project = @project.pledged_amount
-
     @backers = @project.backers
-
-    @number_of_rewards = @project.rewards.count
+    # @number_of_rewards = @project.rewards.where("reward_id = 33")
 
     extract_posted_update
     @post_update = Comment.new
