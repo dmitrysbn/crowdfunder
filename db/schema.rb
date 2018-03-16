@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180315200229) do
+ActiveRecord::Schema.define(version: 20180316011645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,13 +21,9 @@ ActiveRecord::Schema.define(version: 20180315200229) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "categories_projects", force: :cascade do |t|
-    t.bigint "project_id"
-    t.bigint "category_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["category_id"], name: "index_categories_projects_on_category_id"
-    t.index ["project_id"], name: "index_categories_projects_on_project_id"
+  create_table "categorizations", id: false, force: :cascade do |t|
+    t.bigint "category_id", null: false
+    t.bigint "project_id", null: false
   end
 
   create_table "comments", force: :cascade do |t|

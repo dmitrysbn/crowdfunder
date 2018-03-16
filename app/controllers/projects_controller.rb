@@ -74,9 +74,9 @@ class ProjectsController < ApplicationController
   def write_project_category
     params[:project][:category_ids].each do |cat_id|
       unless cat_id == ""
-        @project_category = Categories_Project.new
+        @project_category = Categorization.new
         @project_category.project_id = @project.id
-        @project_category.category_id = cat.id
+        @project_category.category_id = cat_id
 
         @project_category.save
       end
